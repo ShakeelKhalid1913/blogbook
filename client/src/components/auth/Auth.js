@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import ContactMe from "../layouts/ContactMe"
 import {Alert, Button, Col, Form, Layout, Row, Space} from "antd"
 import {Input} from "antd/es"
 import {useNavigate} from "react-router-dom"
@@ -16,13 +15,13 @@ function Auth(props) {
    })
    const navigate = useNavigate()
 
-   const handleSubmit = (event) => {
+   const handleSubmit = async (event) => {
       const user = {
          email: form.getFieldValue("email"),
          password: form.getFieldValue("password")
       }
       if (type === 'Signup') {
-         AuthService.register(user)
+         await AuthService.register(user)
              .then((res) => {
                 setAlert({
                    show: true,
@@ -38,7 +37,7 @@ function Auth(props) {
                 })
              })
       } else {
-         AuthService.login(user)
+        await AuthService.login(user)
              .then(() => {
                 navigate('/dashboard')
                 window.location.reload();

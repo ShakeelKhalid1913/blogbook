@@ -27,6 +27,8 @@ exports.createBlog = async (req, res) => {
 
 exports.blogs = (req, res) => {
    Blog.find()
-       .then(blogs => res.status(200).send({data: blogs}))
+       .then(blog => res.status(200).send({
+          data: blog
+       }))
        .catch(err => res.status(500).send(err))
 }

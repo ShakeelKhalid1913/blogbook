@@ -1,8 +1,12 @@
 import {allBlogs} from "./api"
 
 class BlogService{
-   getAllBlogs(){
-      return allBlogs()
+   async getAllBlogs() {
+      return await allBlogs().then(res => {
+         return res.data.data
+      }).catch(err => {
+         return err
+      })
    }
 }
 
