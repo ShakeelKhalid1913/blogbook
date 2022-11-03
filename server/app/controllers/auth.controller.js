@@ -10,12 +10,9 @@ exports.signUp = async (req, res) => {
       password: bcrypt.hashSync(req.body.password, 8)
    })
 
-   await user.save((err, user) => {
-      if (err)
-         res.status(500).send(err)
-      else
-         res.status(200).send("User registered successfully ")
-   })
+   await user.save()
+       .then(() => res.status(200).send("User registered successfully "))
+       .catch((err) => res.status(500).send(err))
 }
 
 exports.signIn = async (req, res) => {
@@ -24,8 +21,7 @@ exports.signIn = async (req, res) => {
    }).exec((err, user) => {
       if (err) {
          res.status(500).send(err)
-      }
-      else if (!user)
+      } else if (!user)
          res.status(404).send("User not found")
       else {
          const password = bcrypt.compareSync(
@@ -34,8 +30,7 @@ exports.signIn = async (req, res) => {
 
          if (!password) {
             res.status(401).send("Invalid Password!")
-         }
-         else {
+         } else {
             req.session.token = jwt.sign({id: user._id}, config.secret, {
                expiresIn: 86400
             })

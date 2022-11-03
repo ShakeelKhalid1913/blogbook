@@ -1,6 +1,6 @@
 import React from 'react'
 import BlogCard from "./BlogCard"
-import {Card, Col, Layout, List, Row, Tooltip} from "antd"
+import {Card, Col, Layout, List, Row, Space, Tooltip} from "antd"
 import pic from "../../home.svg"
 
 function Blogs(props) {
@@ -15,8 +15,8 @@ function Blogs(props) {
               "Some quick example text to build on the card title and make up the bulk of the card's content."
        }))
    return (
-       <Layout>
-          <List itemLayout={"vertical"} size={"large"} pagination={{pageSize: 3}}
+       <Layout >
+          <List itemLayout={"vertical"} size={"large"} pagination={{pageSize: 10}}
                 dataSource={data}
                 renderItem={(item) => (
                     <BlogCard key={item.title} item={item} image={pic}/>
@@ -25,5 +25,4 @@ function Blogs(props) {
        </Layout>
    )
 }
-
-export default Blogs
+export default Blogs;

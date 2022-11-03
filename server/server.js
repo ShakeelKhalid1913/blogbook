@@ -28,6 +28,8 @@ app.use(cookieSession({
 //add routes
 require('./app/routes/auth.route')(app)
 require('./app/routes/user.route')(app)
+require('./app/routes/blog.route')(app)
+
 
 //connect with database
 db.mongoose.connect(`mongodb+srv://${dbConfig.HOST}:${dbConfig.PASSWORD}@cluster0.o1kyzlh.mongodb.net/${dbConfig.DB}?retryWrites=true&w=majority`, {
