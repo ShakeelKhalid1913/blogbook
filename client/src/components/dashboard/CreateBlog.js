@@ -1,31 +1,32 @@
 import React, {useState} from 'react';
-import {Button, Form, Layout, Modal, Upload} from "antd";
+import {Button, Form, Layout, Modal, notification, Upload} from "antd"
 import {Input} from "antd/es";
 import TextArea from "antd/es/input/TextArea";
-import {InboxOutlined} from "@ant-design/icons";
+import {InboxOutlined, SmileOutlined} from "@ant-design/icons"
 import Dragger from "antd/es/upload/Dragger";
+import AuthService from "../../services/auth.service"
+import BlogService from "../../services/blog.service"
 
-function CreatePost(props) {
+function CreateBlog(props) {
+   const currentUser = AuthService.getCurrentUser();
    const [form] = Form.useForm();
    const [previewVisible, setPreviewVisible] = useState(false);
    const [image, setImage] = useState("");
    const [fileList, setFileList] = useState([]);
 
    const beforeUpload = file => {
-      if (file.type === 'image/png' || file.type === 'image/jpeg'){
+      if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === "image/jpg"){
          return Promise.reject("File is not image");
       }
       return Upload.LIST_IGNORE;
    }
 
    const handlePreview = file => {
-      console.log(file.thumbUrl)
       setImage(file.thumbUrl)
       setPreviewVisible(true)
    }
 
    const handleUpload = ({fileList}) => {
-      console.log(fileList)
       setFileList(fileList)
    }
 
@@ -36,9 +37,21 @@ function CreatePost(props) {
    const onFormFinish = (event) => {
       let formData = new FormData();
       // add one or more of your files in FormData
-      // again, the original file is located at the `originFileObj` key
-      formData.append("file", fileList[0].originFileObj);
+      formData.append('image', fileList[0].originFileObj)
+      formData.append("title", form.getFieldValue("title"))
+      formData.append("content", form.getFieldValue("content"))
+      formData.append("user", currentUser.id)
 
+      BlogService.uploadBlog(formData).then(res => {
+         notification.open({
+            message: 'Notification',
+            description:
+                `Blog successfully Upload`,
+            icon: (
+                <SmileOutlined style={{color: "#108ee9"}}/>
+            )
+         });
+      }).catch(err => console.log(err))
    }
 
    return (
@@ -57,18 +70,18 @@ function CreatePost(props) {
                    {required: true, message: "Content Required"},
                    () => ({
                       validator(_, value) {
-                         if (!value || value.length >= 100)
+                         if (!value || value.length >= 10)
                             return Promise.resolve();
-                         return Promise.reject(new Error("Length must be least 100"))
+                         return Promise.reject(new Error("Length must be least 10"))
                       }
                    })
                 ]}>
-                   <TextArea rows={4} placeholder={"Enter Content"}/>
+                   <TextArea autoSize={{minRows: 3, maxRows: 6}} placeholder={"minimum 10 characters"}/>
                 </Form.Item>
                 <Form.Item label="Upload" valuePropName="fileList" rules={[
-                   {required: true, message: " Please Upload Content"}
+                   {required: false, message: " Please Upload Content"}
                 ]}>
-                   <Dragger multiple={false} accept={'/upload.do'} listType="picture-card"
+                   <Dragger maxCount={1} accept={'/upload.do'} listType="picture-card"
                             fileList={fileList} onPreview={handlePreview}
                             onChange={handleUpload} beforeUpload={beforeUpload}>
                       <p className="ant-upload-drag-icon">
@@ -87,7 +100,6 @@ function CreatePost(props) {
              </Form>
              <Modal
                  open={previewVisible}
-                 footer={null}
                  onCancel={handleCancel}
              >
                 <img alt="value" style={{width: "100%"}} src={image}/>
@@ -97,4 +109,4 @@ function CreatePost(props) {
    );
 }
 
-export default CreatePost;
+export default CreateBlog;

@@ -21,15 +21,15 @@ function Auth(props) {
          password: form.getFieldValue("password")
       }
       if (type === 'Signup') {
+         user["username"] = form.getFieldValue("username")
          await AuthService.register(user)
              .then((res) => {
                 setAlert({
                    show: true,
-                   message: res.data.message,
+                   message: res.data,
                    type: "success"
                 })
              }, err => {
-                console.log(err.response.data.message)
                 setAlert({
                    show: true,
                    message: `${err.response.data.message}`,
@@ -37,10 +37,10 @@ function Auth(props) {
                 })
              })
       } else {
-        await AuthService.login(user)
+         await AuthService.login(user)
              .then(() => {
                 navigate('/dashboard')
-                window.location.reload();
+                window.location.reload()
              }, err => {
                 setAlert({
                    show: true,
@@ -59,6 +59,15 @@ function Auth(props) {
                    <h1>{type}</h1>
                    <hr/>
                    <Form ref={formRef} form={form} layout={"vertical"} onFinish={handleSubmit}>
+                      {
+                         type === "Signup" ?
+                             <Form.Item label={"Username"} name={"username"} rules={[
+                                {required: true, message: "Username required"}
+                             ]}>
+                                <Input/>
+                             </Form.Item>
+                             : null
+                      }
                       <Form.Item label={"Email"} name={"email"} rules={[
                          {required: true, message: "Email required"}
                       ]}>

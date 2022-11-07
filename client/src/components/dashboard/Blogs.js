@@ -1,34 +1,57 @@
 import React, {useEffect, useState} from 'react'
 import BlogCard from "./BlogCard"
-import {Card, Col, Image, Layout, List, Row, Space, Tooltip} from "antd"
-import pic from "../../home.svg"
+import {Layout, List} from "antd"
 import BlogService from "../../services/blog.service"
-import {allBlogs} from "../../services/api"
 
 function Blogs(props) {
    const [blogs, setBlogs] = useState([])
+   const [loading, setLoading] = useState(true)
+
+   const templateData = Array.from({length: 10}).map((_, i) => ({
+      name: "template"
+   }))
+
    useEffect(() => {
-      setBlogs(BlogService.getAllBlogs())
+      if (props.user_id !== "all") {
+         BlogService.getAllUserBlogs(props.user_id)
+             .then(res => {
+                setBlogs(res.data.blogs)
+                setLoading(false)
+             })
+             .catch(err => console.log(err.message))
+      } else {
+         BlogService.getAllBlogs()
+             .then(res => {
+                let data = []
+                if (res.data !== undefined) {
+                   res.data.map((key) => {
+                      if (key.blogs.length !== 0) {
+                         key.blogs.map((blog) => {
+                            let blogData = {}
+                            blogData["_id"] = blog._id
+                            blogData["title"] = blog.title
+                            blogData["content"] = blog.content
+                            blogData["image"] = blog.image
+                            blogData["username"] = key.username
+                            blogData["createdAt"] = blog.created_at
+                            data.push(blogData)
+                         })
+                      }
+                   })
+                   setBlogs(data)
+                   setLoading(false)
+                }
+             })
+             .catch(err => console.log(err.message))
+      }
    })
-   const data = Array.from({length: 23})
-       .map((_, i) => ({
-          href: "ABC",
-          title: `Blog ${i}`,
-          avatar: "",
-          description:
-              "Computer Scientist",
-          content:
-              "Some quick example text to build on the card title and make up the bulk of the card's content."
-       }))
    return (
        <Layout>
-          {
-
-          }
           <List itemLayout={"vertical"} size={"large"} pagination={{pageSize: 10}}
-                dataSource={data}
-                renderItem={(item) => (
-                    <BlogCard key={item.title} item={item} image={pic}/>
+                dataSource={blogs}
+                renderItem={(blog) => (
+                    <BlogCard key={blog._id} loading={loading} blogInfo={blog}
+                              username={props.user_id !== "all" ? props.username : blog.username}/>
                 )}
           />
        </Layout>

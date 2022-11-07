@@ -1,5 +1,5 @@
-const {uploadImage} = require('../middlewares')
 const controller = require('../controllers/blog.controller')
+const {uploadImage} = require('../middlewares')
 
 module.exports = (app) => {
    app.use((req, res, next) => {
@@ -10,6 +10,7 @@ module.exports = (app) => {
       next()
    })
 
-   app.post('/blogs/upload', controller.createBlog)
+   app.post('/blogs/upload', uploadImage.single('image') , controller.createBlog)
    app.get('/blogs/all', controller.blogs)
+   app.get('/blogs/:id', controller.blogsByUserId)
 }

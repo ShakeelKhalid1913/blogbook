@@ -1,13 +1,17 @@
-import {allBlogs} from "./api"
+import {allBlogs, allUserBlogs, uploadBlog} from "./api"
 
-class BlogService{
-   async getAllBlogs() {
-      return await allBlogs().then(res => {
-         return res.data.data
-      }).catch(err => {
-         return err
-      })
+class BlogService {
+   getAllBlogs() {
+      return allBlogs()
+   }
+
+   getAllUserBlogs(user_id) {
+      return allUserBlogs(user_id)
+   }
+
+   uploadBlog(blogInfo){
+      return uploadBlog(blogInfo);
    }
 }
 
-export default new BlogService();
+export default new BlogService()

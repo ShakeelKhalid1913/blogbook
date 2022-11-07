@@ -1,6 +1,6 @@
 import React from 'react'
 import Blogs from "./Blogs"
-import CreatePost from "./CreatePost"
+import CreateBlog from "./CreateBlog"
 import Profile from "./Profile"
 import {Layout, Tabs} from "antd"
 import AuthService from "../../services/auth.service"
@@ -13,10 +13,10 @@ function Dashboard(props) {
        currentUser ?
            <Layout className={"mx-5"}>
               <Tabs defaultActiveKey={"1"} tabPosition={"left"} items={[
-                 {label: "Blogs",key:"1", children:<Blogs/>},
-                 {label: "Create Blog",key:"2", children:<CreatePost/>},
+                 {label: "Blogs",key:"1", children:<Blogs user_id={"all"}/>},
+                 {label: "Create Blog",key:"2", children:<CreateBlog/>},
                  {label: "Profile",key:"3", children:<Profile/>},
-                 {label: "My Blogs",key:"4", children:<Blogs/>},
+                 {label: "My Blogs",key:"4", children:<Blogs username={currentUser.username} user_id={currentUser.id}/>},
               ]}/>
            </Layout>
            :
