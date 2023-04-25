@@ -1,17 +1,17 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 .page-layout {
   position: relative;
@@ -19,7 +19,7 @@ code {
 }
 
 .content-wrap {
-  padding-bottom: 2.5rem;    /* Footer height */
+  padding-bottom: 2.5rem; /* Footer height */
 }
 
 .footer {
@@ -29,13 +29,14 @@ code {
   height: 3.5rem;
 }
 
-.navbar, .footer{
-  background-color: #2B3144;
+.navbar,
+.footer {
+  background-color: #2b3144;
   color: #ffffff;
   width: 100%;
 }
 
-.navbar-nav .nav-link  {
+.navbar-nav .nav-link {
   color: #ffffff;
 }
 
@@ -47,5 +48,5 @@ code {
 }
 
 .nav-tabs .nav-item .nav-link.active {
-  background-color: #2B3144;
+  background-color: #2b3144;
 }
