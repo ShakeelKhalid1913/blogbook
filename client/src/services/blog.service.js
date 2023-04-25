@@ -1,17 +1,17 @@
-import {allBlogs, allUserBlogs, uploadBlog} from "./api"
+import { allBlogs, allUserBlogs, uploadBlog } from './api'
 
 class BlogService {
-   getAllBlogs() {
-      return allBlogs()
-   }
+  getAllBlogs () {
+    return allBlogs()
+  }
 
-   getAllUserBlogs(user_id) {
-      return allUserBlogs(user_id)
-   }
+  getAllUserBlogs (user_id) {
+    return allUserBlogs(user_id)
+  }
 
-   uploadBlog(blogInfo){
-      return uploadBlog(blogInfo);
-   }
+  uploadBlog (blogInfo) {
+    return uploadBlog(blogInfo)
+  }
 }
 
 export default new BlogService()

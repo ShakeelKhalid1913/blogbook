@@ -3,5 +3,7 @@ const verifySignup = require('./verifySignup.js')
 const uploadImage = require('./uploadImage')
 
 module.exports = {
-   authJwt, verifySignup, uploadImage
+  authJwt,
+  verifySignup,
+  uploadImage
 }
